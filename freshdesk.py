@@ -32,7 +32,3 @@ class Freshdesk:
                 self.es.index(index='sw', doc_type='people', id=i, body=data[i])
             except:
                 print("Não tenho a menor ideia")
-
-    def showAll(self):
-        a = self.es.search(index="sw", body={"query": {"match": {'cc_emails':'emerson@domalberto.edu.br'}}})
-        print(a)

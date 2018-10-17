@@ -4,7 +4,7 @@ import requests
 def main():
     api = freshdesk.Freshdesk('KBgglQ7Ef7h21DeSuVIg','universa','uBHEfXV?')
     api.elastic()
-    api.showAll()
+    print("Tickets atualizados com sucesso!")
 
 
 if __name__ == '__main__':
