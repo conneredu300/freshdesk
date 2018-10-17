@@ -1,31 +1,38 @@
 import requests
+from elasticsearch import Elasticsearch
 import json
-import pandas as pd
-from sklearn.cluster import KMeans
 
 class Freshdesk:
     api_key = ""
     domain = ""
     password = ""
+    es = False
 
     def __init__(self,apikey,domain,password):
         self.api_key = apikey
         self.domain = domain
         self.password = password
+        self.es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
 
     def returnAllTickets(self):
-        # Return the tickets that are new or opend & assigned to you
-        # If you want to fetch all tickets remove the filter query param
-        r = requests.get("https://"+ self.domain +".freshdesk.com/api/v2/tickets?filter=new_and_my_open", auth = (self.api_key, self.password))
+        r = requests.get("https://"+ self.domain +".freshdesk.com/api/v2/tickets?", auth = (self.api_key, self.password))
         if r.status_code == 200:
-          return prepareTickets(r)
+          return r.json()
 
         print("x-request-id : " + r.headers['x-request-id'])
         print("Código : " + str(r.status_code))
 
 
-def prepareTickets(data):
-    data = data.json()
-    dataset = pd.
-    head = dataset.head()
+    def elastic(self):
+        data = self.returnAllTickets()
+
+        for i in range(0, len(data)):
+            try:
+                self.es.index(index='sw', doc_type='people', id=i, body=data[i])
+            except:
+                print("Não tenho a menor ideia")
+
+    def showAll(self):
+        a = self.es.search(index="sw", body={"query": {"match": {'cc_emails':'emerson@domalberto.edu.br'}}})
+        print(a)
