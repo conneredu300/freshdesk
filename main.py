@@ -2,7 +2,7 @@ import freshdesk
 import requests
 
 def main():
-    api = freshdesk.Freshdesk('KBgglQ7Ef7h21DeSuVIg','universa','uBHEfXV?')
+    api = freshdesk.Freshdesk(APIKEY,DOMINIO,SENHA)
     api.elastic()
     print("Tickets atualizados com sucesso!")
 
